@@ -1,0 +1,419 @@
+import streamlit as st
+import pandas as pd
+from datetime import datetime
+import json
+
+# Configuración de la página
+st.set_page_config(
+    page_title="Fiesta Navideña 2025",
+    page_icon="🎄",
+    layout="wide"
+)
+
+# CSS personalizado para tema navideño
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f0f8f0;
+    }
+    .stButton>button {
+        background-color: #d42426;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        padding: 10px 24px;
+        font-size: 18px;
+    }
+    .stButton>button:hover {
+        background-color: #a81c1e;
+    }
+    h1 {
+        color: #165b33;
+        text-align: center;
+        font-size: 42px;
+    }
+    h2 {
+        color: #d42426;
+        font-size: 32px;
+    }
+    h3 {
+        color: #165b33;
+        font-size: 26px;
+    }
+    .info-box {
+        background-color: #fff9e6;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 5px solid #ffc107;
+        margin: 10px 0;
+        font-size: 17px;
+    }
+    .stTextInput label, .stTextArea label, .stRadio label, .stSelectbox label {
+        font-size: 22px !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+    }
+    .stRadio > div {
+        font-size: 19px !important;
+    }
+    .stTextInput input, .stTextArea textarea {
+        font-size: 17px !important;
+    }
+    .stRadio > label > div {
+        font-size: 18px !important;
+    }
+    /* Hacer que todas las imágenes tengan el mismo tamaño */
+    [data-testid="stImage"] img {
+        height: 200px !important;
+        width: 200px !important;
+        object-fit: cover !important;
+        border-radius: 10px;
+        border: 3px solid #d42426;
+        margin: 0 auto;
+        display: block;    
+    }
+    /* Centrar los captions */
+    [data-testid="stImage"] + div {
+        text-align: center;
+        font-weight: 600;
+        color: #165b33;
+        margin-top: 8px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Inicializar session state
+if 'seccion' not in st.session_state:
+    st.session_state.seccion = 1
+if 'respuestas' not in st.session_state:
+    st.session_state.respuestas = {}
+
+# Función para guardar respuestas
+def guardar_respuestas():
+    try:
+        try:
+            df = pd.read_csv('respuestas_navidad.csv')
+        except:
+            df = pd.DataFrame()
+        
+        st.session_state.respuestas['fecha_hora'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        nueva_respuesta = pd.DataFrame([st.session_state.respuestas])
+        df = pd.concat([df, nueva_respuesta], ignore_index=True)
+        
+        df.to_csv('respuestas_navidad.csv', index=False)
+        return True
+    except Exception as e:
+        st.error(f"Error al guardar: {e}")
+        return False
+
+# ENCABEZADO
+st.title("🎄 FIESTA NAVIDEÑA 2025! 🎁")
+
+# Verificar si se acaba de enviar el formulario
+if 'formulario_enviado' in st.session_state and st.session_state.formulario_enviado:
+    st.success("🎉 ¡Formulario enviado exitosamente!")
+    st.balloons()
+    st.markdown("""
+    <div class="info-box">
+    <h3 style='color: #165b33; text-align: center;'>¡Gracias por su participación!</h3>
+    <p style='text-align: center;'>Sus respuestas han sido registradas. Nos vemos en la fiesta navideña el 19 de diciembre.</p>
+    <p style='text-align: center;'><b>¡Feliz Navidad! 🎄🎁</b></p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+  
+    st.stop()
+
+st.markdown("""
+<div class="info-box">
+<b>¡Hola papitos!</b> 🎄✨<br><br>
+Los invitamos a completar este formulario para organizar juntos nuestra fiesta navideña 2025. 
+Sus respuestas nos ayudarán a planificar un evento especial para todos.<br><br>
+¡Gracias por su participación!
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("---")
+
+# SECCIÓN 1: DATOS DEL ALUMNO
+if st.session_state.seccion >= 1:
+    st.header("📋 Sección 1 de 4")
+    st.subheader("DATOS DEL ALUMNO")
+    
+    col1, col2 = st.columns([2, 2])
+    
+    with col1:
+        nombre_alumno = st.text_input(
+            "Escribir el nombre del Alumno *", 
+            key="nombre_alumno",
+            placeholder="Ej: Juan Pérez"
+        )
+    
+    st.write("")
+    
+    if st.button("Continuar a Sección 2", key="btn_sec1"):
+        if nombre_alumno:
+            st.session_state.respuestas.update({
+                'nombre_alumno': nombre_alumno
+            })
+            st.session_state.seccion = 2
+            st.rerun()
+        else:
+            st.error("⚠️ Por favor completa todos los campos obligatorios (*)")
+
+# SECCIÓN 2: DATOS PARA EL COMPARTIR
+if st.session_state.seccion >= 2:
+    st.markdown("---")
+    st.header("🎉 Sección 2 de 4")
+    st.subheader("DATOS PARA EL COMPARTIR")
+    
+    st.info("📅 La fecha tentativa en la cual se realizará la reunión será el 19 de diciembre")
+    
+    participa = st.radio("¿Vas a participar? *", ["Sí", "No"], key="participa")
+    
+    if participa == "No":
+        st.success("✨ ¡Gracias por tu respuesta! ¡Feliz Navidad! 🎄🎁")
+        st.balloons()
+        
+        if st.button("Enviar respuesta", key="btn_enviar_no"):
+            st.session_state.respuestas['participa'] = "No"
+            if guardar_respuestas():
+                st.session_state.seccion = 1
+                st.session_state.respuestas = {}
+                st.session_state.formulario_enviado = True
+                st.rerun()
+            else:
+                st.error("❌ Hubo un error al guardar la respuesta")
+        st.stop()
+    
+    if st.button("Continuar a Sección 3", key="btn_sec2"):
+        if participa:
+            st.session_state.respuestas['participa'] = participa
+            st.session_state.seccion = 3
+            st.rerun()
+        else:
+            st.error("⚠️ Por favor selecciona una opción")
+
+# SECCIÓN 3: DATOS PARA EL REGALO
+if st.session_state.seccion >= 3:
+    st.markdown("---")
+    st.header("🎁 Sección 3 de 4")
+    st.subheader("DATOS PARA EL REGALO")
+    
+    st.markdown("""
+    <div class="info-box">
+    <b>Estimados padres:</b><br><br>
+    Las fotografías mostradas son referenciales. El regalo se elegirá según la opción con más votos.<br><br>
+    <b>Importante:</b><br>
+    • Marcar solo UNA opción por pregunta<br>
+    • Una vez que elijan el tipo de regalo, por favor seleccionen en la pregunta siguiente un precio acorde a dicha elección<br>
+    • El monto seleccionado será el aporte individual por familia (se elegirá el monto que tenga más votos)<br><br>
+    ¡Gracias por su participación!
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("")
+    
+    # Pregunta sobre tipo de regalo
+    tipo_regalo_opcion = st.radio(
+        "El regalo debería ser? *",
+        ["Igual para todos", "Diferente para niños y niñas"],
+        key="tipo_regalo_opcion"
+    )
+    
+    st.write("")
+    st.write("")
+    
+    # Pregunta sobre juguete preferido
+    st.write("**¿Qué tipo de juguete prefiere su hijo(a)? ***")
+    st.write("")
+    
+    # Mostrar imágenes de referencia en grid 4x3
+    st.write("**Opciones disponibles:**")
+    st.write("")
+    
+    # Fila 1
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.image("imagenes/juego_mesa.jpg", caption="Juegos de Mesa")
+    with col2:
+        st.image("imagenes/munecas_barbie.jpg", caption="Muñecas")
+    with col3:
+        st.image("imagenes/juego_cocina.jpg", caption="Juegos de Cocina")
+    with col4:
+        st.image("imagenes/lego.jpg", caption="Lego")
+    
+    st.write("")
+    
+    # Fila 2
+    col5, col6, col7, col8 = st.columns(4)
+    with col5:
+        st.image("imagenes/transformers.jpg", caption="Carritos/Transformers")
+    with col6:
+        st.image("imagenes/quimica.jpg", caption="Kit de Química")
+    with col7:
+        st.image("imagenes/pista.jpg", caption="Pistas de Carreras")
+    with col8:
+        st.image("imagenes/reloj.jpg", caption="Reloj Smartwatch")
+    
+    st.write("")
+    
+    # Fila 3
+    col9, col10, col11, col12 = st.columns(4)
+    with col9:
+        st.image("imagenes/consola.jpg", caption="Consola Videojuegos")
+    with col10:
+        st.image("imagenes/camara.jpg", caption="Cámara Digital")
+    with col11:
+        st.write("")
+    with col12:
+        st.write("")
+    
+    st.write("")
+    st.write("---")
+    st.write("")
+    
+    # Lista desplegable para seleccionar
+    opciones_juguetes = [
+        "-- Seleccione una opción --",
+        "Juegos de Mesa (Monopoly, Jenga, Uno, etc.)",
+        "Muñecas (Barbie, Frozen, etc.)",
+        "Juegos de Cocina",
+        "Lego",
+        "Carritos/Transformers",
+        "Kit de Química",
+        "Pistas de carreras",
+        "Reloj Inteligente Smartwatch (S/30 - S/40)",
+        "Consola de Videojuegos (S/50 - S/60)",
+        "Cámara Digital Infantil (S/40 - S/50)",
+        "Otro"
+    ]
+    
+    juguete_preferido = st.selectbox(
+        "**Seleccione su opción de la lista:**",
+        options=opciones_juguetes,
+        index=0,
+        key="juguete"
+    )
+    
+    # Si seleccionó el placeholder, considerarlo como None
+    if juguete_preferido == "-- Seleccione una opción --":
+        juguete_preferido = None
+    
+    otro_juguete = ""
+    if juguete_preferido == "Otro":
+        otro_juguete = st.text_input("Por favor especifica qué otro juguete:", key="otro_juguete", placeholder="Ej: Rompecabezas, Instrumentos musicales, etc.")
+    
+    st.write("")
+    st.write("")
+    
+    # Pregunta sobre precio
+    precio = st.radio(
+        "¿Cuánto debería costar el regalo? (Soles) *",
+        ["20", "25", "30", "35", "40", "50"],
+        key="precio"
+    )
+    
+    if st.button("Continuar a Sección 4", key="btn_sec3"):
+        if tipo_regalo_opcion and juguete_preferido and precio:
+            st.session_state.respuestas.update({
+                'tipo_regalo_opcion': tipo_regalo_opcion,
+                'juguete_preferido': juguete_preferido,
+                'otro_juguete': otro_juguete if juguete_preferido == "Otro" else "",
+                'precio': precio
+            })
+            st.session_state.seccion = 4
+            st.rerun()
+        else:
+            st.error("⚠️ Por favor completa todos los campos obligatorios (*)")
+
+# SECCIÓN 4: COMISIONES
+if st.session_state.seccion >= 4:
+    st.markdown("---")
+    st.header("👥 Sección 4 de 4")
+    st.subheader("PARTICIPACIÓN EN COMISIONES")
+    
+    # Contar cuántas personas hay en cada comisión
+    def contar_comisiones():
+        try:
+            df = pd.read_csv('respuestas_navidad.csv')
+            if 'comision' in df.columns:
+                return df['comision'].value_counts().to_dict()
+            return {}
+        except:
+            return {}
+    
+    # Definir límites de cada comisión
+    limites_comisiones = {
+        "Forrado de regalos (2 personas)": 2,
+        "Limpieza del lugar (antes del show) (3 personas)": 3,
+        "Decoración del lugar (4 personas)": 4,
+        "Limpieza del lugar (después del show) (3 personas)": 3
+    }
+    
+    # Obtener el conteo actual
+    conteo = contar_comisiones()
+    
+    # Crear las opciones con disponibilidad
+    opciones_disponibles = []
+    opciones_completas = []
+    
+    st.write("**Disponibilidad de comisiones:**")
+    st.write("")
+    
+    for comision, limite in limites_comisiones.items():
+        actual = conteo.get(comision, 0)
+        disponibles = limite - actual
+        
+        if disponibles > 0:
+            # Mostrar en verde - disponible
+            st.markdown(f"✅ **{comision}** - Disponibles: {disponibles}/{limite}")
+            opciones_disponibles.append(comision)
+        else:
+            # Mostrar en rojo - completa
+            st.markdown(f"❌ **{comision}** - COMPLETA ({limite}/{limite})")
+            opciones_completas.append(comision)
+    
+    st.write("")
+    st.write("---")
+    st.write("")
+    
+    # Si hay opciones disponibles
+    if opciones_disponibles:
+        comision = st.radio(
+            "¿En qué comisión le gustaría participar? *",
+            opciones_disponibles,
+            key="comision"
+        )
+    else:
+        st.error("⚠️ Lo sentimos, todas las comisiones están completas.")
+        comision = None
+    
+    st.write("")
+    
+    comentarios = st.text_area(
+        "Comentarios adicionales (opcional)",
+        placeholder="Si tiene algún comentario o sugerencia, por favor escríbalo aquí...",
+        key="comentarios"
+    )
+    
+    st.write("")
+    
+    if st.button("✅ ENVIAR FORMULARIO", key="btn_final", type="primary"):
+        if comision:
+            st.session_state.respuestas.update({
+                'comision': comision,
+                'comentarios': comentarios
+            })
+            
+            if guardar_respuestas():
+                # Reiniciar variables y marcar como enviado
+                st.session_state.seccion = 1
+                st.session_state.respuestas = {}
+                st.session_state.formulario_enviado = True
+                st.rerun()
+            else:
+                st.error("❌ Hubo un error al enviar el formulario. Por favor intenta nuevamente.")
+        else:
+            st.error("⚠️ Por favor selecciona una comisión")
