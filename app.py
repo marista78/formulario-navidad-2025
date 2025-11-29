@@ -14,7 +14,10 @@ PASSWORD_ADMIN = "navidad2025"
 def scroll_to_top():
     st.markdown("""
         <script>
-        window.parent.document.querySelector('section.main').scrollTo(0, 0);
+        window.parent.document.querySelector('section.main').scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
         </script>
     """, unsafe_allow_html=True)
 
@@ -439,6 +442,19 @@ if 'pagina' not in st.session_state:
 if 'autenticado' not in st.session_state:
     st.session_state.autenticado = False
 
+# Script de scroll automático basado en la sección actual
+if st.session_state.pagina == 'formulario' and st.session_state.seccion > 1:
+    st.markdown(f"""
+        <script>
+        setTimeout(function() {{
+            const section = window.parent.document.getElementById('seccion{st.session_state.seccion}');
+            if (section) {{
+                section.scrollIntoView({{behavior: 'smooth', block: 'start'}});
+            }}
+        }}, 100);
+        </script>
+    """, unsafe_allow_html=True)
+
 # Título principal
 st.title("🎄 FIESTA NAVIDEÑA 2025! 🎁")
 
@@ -678,6 +694,7 @@ else:
 
     # SECCIÓN 1: DATOS DEL ALUMNO
     if st.session_state.seccion >= 1:
+        st.markdown('<div id="seccion1"></div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         st.header("📋 Sección 1 de 4")
         st.subheader("🎓 DATOS DEL ALUMNO")
@@ -700,7 +717,6 @@ else:
                     'nombre_alumno': nombre_alumno
                 })
                 st.session_state.seccion = 2
-                scroll_to_top()
                 st.rerun()
             else:
                 st.error("⚠️ Por favor completa el nombre del alumno")
@@ -708,6 +724,7 @@ else:
     # SECCIÓN 2: PARTICIPACIÓN
     if st.session_state.seccion >= 2:
         st.markdown("---")
+        st.markdown('<div id="seccion2"></div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         st.header("🎉 Sección 2 de 4")
         st.subheader("📅 DATOS PARA EL COMPARTIR")
@@ -739,7 +756,6 @@ else:
             if participa:
                 st.session_state.respuestas['participa'] = participa
                 st.session_state.seccion = 3
-                scroll_to_top()
                 st.rerun()
             else:
                 st.error("⚠️ Por favor selecciona una opción")
@@ -747,6 +763,7 @@ else:
     # SECCIÓN 3: REGALO
     if st.session_state.seccion >= 3:
         st.markdown("---")
+        st.markdown('<div id="seccion3"></div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         st.header("🎁 Sección 3 de 4")
         st.subheader("🎀 DATOS PARA EL REGALO")
@@ -876,7 +893,6 @@ else:
                     'precio': precio
                 })
                 st.session_state.seccion = 4
-                scroll_to_top()
                 st.rerun()
             else:
                 st.error("⚠️ Por favor completa todos los campos obligatorios (*)")
@@ -884,6 +900,7 @@ else:
     # SECCIÓN 4: COMISIONES
     if st.session_state.seccion >= 4:
         st.markdown("---")
+        st.markdown('<div id="seccion4"></div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         st.header("👥 Sección 4 de 4")
         st.subheader("🤝 PARTICIPACIÓN EN COMISIONES")
