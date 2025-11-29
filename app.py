@@ -13,14 +13,22 @@ PASSWORD_ADMIN = "navidad2025"
 # Función para obtener credenciales
 def obtener_credenciales():
     try:
-        # Intentar leer desde secrets (Streamlit Cloud)
+        # PRIMERO: Intentar leer desde secrets (Streamlit Cloud)
         if hasattr(st, 'secrets') and 'gcp_service_account' in st.secrets:
             return dict(st.secrets['gcp_service_account'])
+        
+        # SEGUNDO: Si no hay secrets, intentar archivo local (solo para desarrollo)
         else:
-            # Usar archivo local para desarrollo
             import json
-            with open('credenciales.json') as f:
-                return json.load(f)
+            import os
+            
+            if os.path.exists('credenciales.json'):
+                with open('credenciales.json') as f:
+                    return json.load(f)
+            else:
+                st.error("❌ No se encontraron credenciales. Por favor configura los secrets en Streamlit Cloud.")
+                return None
+                
     except Exception as e:
         st.error(f"Error al cargar credenciales: {e}")
         return None
