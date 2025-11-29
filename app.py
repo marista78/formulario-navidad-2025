@@ -10,6 +10,14 @@ import plotly.graph_objects as go
 SHEET_ID = "1qRSogtdIlpjupoTVwTd-MqUkXXjwnomdDuP9qwWLEbg"
 PASSWORD_ADMIN = "navidad2025"
 
+# Función para hacer scroll al inicio
+def scroll_to_top():
+    st.markdown("""
+        <script>
+        window.parent.document.querySelector('section.main').scrollTo(0, 0);
+        </script>
+    """, unsafe_allow_html=True)
+
 # Función para obtener credenciales
 def obtener_credenciales():
     try:
@@ -483,6 +491,7 @@ if st.session_state.pagina == 'formulario':
         st.markdown('<div class="floating-container">', unsafe_allow_html=True)
         if st.button("📊", key="admin-btn-float", help="Panel de Administración"):
             st.session_state.pagina = 'admin'
+            scroll_to_top()
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -494,6 +503,7 @@ if st.session_state.pagina == 'admin':
         if st.button("⬅️ Volver", key="volver_form"):
             st.session_state.pagina = 'formulario'
             st.session_state.autenticado = False
+            scroll_to_top()
             st.rerun()
     
     st.title("📊 Panel de Administración")
@@ -504,6 +514,7 @@ if st.session_state.pagina == 'admin':
         if st.button("Ingresar"):
             if password == PASSWORD_ADMIN:
                 st.session_state.autenticado = True
+                scroll_to_top()
                 st.rerun()
             else:
                 st.error("❌ Contraseña incorrecta")
@@ -689,6 +700,7 @@ else:
                     'nombre_alumno': nombre_alumno
                 })
                 st.session_state.seccion = 2
+                scroll_to_top()
                 st.rerun()
             else:
                 st.error("⚠️ Por favor completa el nombre del alumno")
@@ -716,6 +728,7 @@ else:
                     st.session_state.seccion = 1
                     st.session_state.respuestas = {}
                     st.session_state.formulario_enviado = True
+                    scroll_to_top()
                     st.rerun()
                 else:
                     st.error("❌ Hubo un error al guardar la respuesta")
@@ -726,6 +739,7 @@ else:
             if participa:
                 st.session_state.respuestas['participa'] = participa
                 st.session_state.seccion = 3
+                scroll_to_top()
                 st.rerun()
             else:
                 st.error("⚠️ Por favor selecciona una opción")
@@ -853,7 +867,7 @@ else:
             key="precio"
         )
         
-        if st.button("Continuar a Sección 4", key="btn_sec3"):
+        if st.button("➡️ Continuar a Sección 4", key="btn_sec3"):
             if tipo_regalo_opcion and juguete_preferido and precio:
                 st.session_state.respuestas.update({
                     'tipo_regalo_opcion': tipo_regalo_opcion,
@@ -862,6 +876,7 @@ else:
                     'precio': precio
                 })
                 st.session_state.seccion = 4
+                scroll_to_top()
                 st.rerun()
             else:
                 st.error("⚠️ Por favor completa todos los campos obligatorios (*)")
@@ -935,6 +950,7 @@ else:
                     st.session_state.seccion = 1
                     st.session_state.respuestas = {}
                     st.session_state.formulario_enviado = True
+                    scroll_to_top()
                     st.rerun()
                 else:
                     st.error("❌ Hubo un error al enviar el formulario. Por favor intenta nuevamente.")
