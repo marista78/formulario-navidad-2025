@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "proyecto-navidad-2025",
+  "private_key_id": "f0a32b326162909d0b56bfaa8cf5ff019e191582",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCxPACVc+jexII5\nqUxswpgH/cCGbeUEzvr9TdD+wOJ/EwyUmUwDYLnROJPzbQeY2GC50pNGewG47rs+\ncpYvAbFcaNkjKu68lYtXnuAf76qWvc4W0IGF2HM6aIZdEsg+FhE5IGOBPSqJ8vyY\nOq+QUfrHC5X4VsCUCR5O9wba/+zrZa1vez/W+4FRAG7xLn1bawHzHX7zSFcqYsp5\npNT+Tv7fbA7rHUFaqDmjodBBgDPr0GJtW80F3jBYB2H1HJyVuSGqlVhv80Wa3tl9\n2n0bDyPvLSWSlM0V4EuLCLae+kGo1rpYXp40YNaFrPLm9N1jWhu50urrDYQ0GlOB\n9rlLw0JtAgMBAAECggEACfUXC06BzNI5hsfONWYRaJGHGYZfEZAXZdfTYByyHPWT\nBV4/eQkcJ3cISOrdPGcbuBTulU0f4aX3+yAw898iedCiMmmdFBdKxtd0PBcY/HMZ\newqn3D826hcpRV1ixqoyuYTqUj5/f1SZgGv7pR4V+szZ1iP5mdeRTlpulis+wlLS\nG5PkA+AS0FhwlAfr5ey92Qz8Td7hq7Q4Zjp9Cm5VuHAkr0hqfunslThsUE4FfFmy\nvdYCmTWHtBN6tDRzTvmjkJrX+aVvvbhSsRkzHObyfJHSYG8rTU+6DBTd5DeXGL89\nSElAc/TpAqWsvG/pGYPdxGOByPJ/Ca7tfwQpU9s1gQKBgQDiCqmH9v0fOz4yo6FX\nrgQ/QodHkNRfNc+VC4v7s6n2gKVsq6BJyaxYfNA2ILT2JE9VKaw6+7VAlsw1XQxc\nAb559kUt+hBJT4ImzeAgGQ/32UyqDp+tKJFXJCvSTkamvl/CbSArWU8EnJxZRuWb\nKRZo1Rc9b/bJZoIFzOL3ntxv3QKBgQDIuV1bjw6+Y2c6vZhGyHj+FKX5chVxctgs\nOKNl84AsMVB/hjDHxy+klUwkTEt25665lfQ7vau5Rc6oPFiYOPiruFE867UAPx7t\n03HL92ymoFqlWmlkljBEpljuQHfb+FjKnroEXLaIYZPpKCY8JixjMoPnkvyWouhR\nMAaFvdQ70QKBgGopj83n1qIgdOnbqB9B/4SmflrCTrwYzdG2hpxEmYLIkOklAjcl\nnOhCVpfVbKheDVR2KgnZxhr7uBUoCnH777XgUEVzuMp1qS8Iakco/jLtv+/uxlfR\nQdGnj11KniwaJWdvUTiKzW3hEB1uCtCAz6GU00FroICewFpxC/g4iFeRAoGAej86\ntoqYJigQNNxHo8Rwu/4DX7q1iJSzR6tvCKaWh1O5fRFTIDkVsR0kdG7q/w33ghvr\n1X6c2YfEZv3pzzvTZ3IoN/wuDmpjAeFnSxvz1j+PNWmtCo/V8dmGDATDevrzyOOG\n0yVMHh+fn77OGo/9NKUNZLpGj8/Dwb6IGmgUnCECgYEAjGkLEkM5zV5oCHUiOQjs\nAYPvavv/AapMUr57T08QMSTFvaL/8m33AWSjFU2ZEds/FmljvWQGaskLBYio4SMO\n6/A/2Yj9+btlQ+vBiyoec/HOse1R3PyD0W+Uc1OoQ0x2o1RSahXZ/RA0Oh8uRwOO\n9uAq5J73uG6uiNdX3KXrxw0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "formulario-navidad-service@proyecto-navidad-2025.iam.gserviceaccount.com",
+  "client_id": "107544254427603129789",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/formulario-navidad-service%40proyecto-navidad-2025.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
