@@ -442,19 +442,6 @@ if 'pagina' not in st.session_state:
 if 'autenticado' not in st.session_state:
     st.session_state.autenticado = False
 
-# Script de scroll automático basado en la sección actual
-if st.session_state.pagina == 'formulario' and st.session_state.seccion > 1:
-    st.markdown(f"""
-        <script>
-        setTimeout(function() {{
-            const section = window.parent.document.getElementById('seccion{st.session_state.seccion}');
-            if (section) {{
-                section.scrollIntoView({{behavior: 'smooth', block: 'start'}});
-            }}
-        }}, 100);
-        </script>
-    """, unsafe_allow_html=True)
-
 # Título principal
 st.title("🎄 FIESTA NAVIDEÑA 2025! 🎁")
 
@@ -693,8 +680,7 @@ else:
     st.markdown("---")
 
     # SECCIÓN 1: DATOS DEL ALUMNO
-    if st.session_state.seccion >= 1:
-        st.markdown('<div id="seccion1"></div>', unsafe_allow_html=True)
+    if st.session_state.seccion == 1:
         st.markdown("<br>", unsafe_allow_html=True)
         st.header("📋 Sección 1 de 4")
         st.subheader("🎓 DATOS DEL ALUMNO")
@@ -722,7 +708,7 @@ else:
                 st.error("⚠️ Por favor completa el nombre del alumno")
 
     # SECCIÓN 2: PARTICIPACIÓN
-    if st.session_state.seccion >= 2:
+    if st.session_state.seccion == 2:
         st.markdown("---")
         st.markdown('<div id="seccion2"></div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
@@ -761,7 +747,7 @@ else:
                 st.error("⚠️ Por favor selecciona una opción")
 
     # SECCIÓN 3: REGALO
-    if st.session_state.seccion >= 3:
+    if st.session_state.seccion == 3:
         st.markdown("---")
         st.markdown('<div id="seccion3"></div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
@@ -898,7 +884,7 @@ else:
                 st.error("⚠️ Por favor completa todos los campos obligatorios (*)")
 
     # SECCIÓN 4: COMISIONES
-    if st.session_state.seccion >= 4:
+    if st.session_state.seccion == 4:
         st.markdown("---")
         st.markdown('<div id="seccion4"></div>', unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
